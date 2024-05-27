@@ -5,11 +5,13 @@ import "core:math/rand"
 
 import rl "vendor:raylib"
 
+// window params
 WIDTH   :: 1024
 HEIGHT  :: 768
 FPS     :: 60
 TITLE : cstring : "Game of Life"
 
+// cell/grid parameters
 CELL_SIZE :: 8
 CELL_SPACE :: 1
 REC_SIZE :: (CELL_SIZE + CELL_SPACE)
@@ -54,7 +56,7 @@ count_neighbors :: proc(x, y: int) -> int{
 flag_cell :: proc(i : int) {
    x := (int(rl.GetMouseX()) - GRID_X_SPACE) / REC_SIZE
    y := (int(rl.GetMouseY()) - CELL_SPACE) / REC_SIZE
-   if y >= GRID_W || x >= GRID_W {return}
+   if y >= GRID_W || y < 0 || x >= GRID_W || x < 0 {return}
    front[x][y] = i
 }
 
@@ -74,13 +76,13 @@ main :: proc() {
 
    paused := true
 
+   // draw a "glider" to start with
    front[11][10] = 1
    front[12][11] = 1
    front[10][12] = 1
    front[11][12] = 1
    front[12][12] = 1
 
-   
    rl.InitWindow(WIDTH, HEIGHT, TITLE)
 
    rl.SetTargetFPS(FPS)
@@ -90,26 +92,21 @@ main :: proc() {
       if rl.IsKeyPressed(rl.KeyboardKey(.SPACE)) {
          paused = !paused
       }
-      if rl.IsKeyPressed(rl.KeyboardKey(.P)) {
-         if paused{
+
+      if paused{
+         if rl.IsKeyPressed(rl.KeyboardKey(.P)) {
             life_explosion()
          }
-      }
-      if rl.IsKeyPressed(rl.KeyboardKey(.X)) {
-         if paused{
+         if rl.IsKeyPressed(rl.KeyboardKey(.X)) {
             clear : [GRID_W][GRID_H]int
             front = clear
             back = clear
          }
-      }
 
-      if rl.IsMouseButtonDown(rl.MouseButton(0)){
-         if paused {
+         if rl.IsMouseButtonDown(rl.MouseButton(0)){
             flag_cell(1)
          }
-      }
-      if rl.IsMouseButtonDown(rl.MouseButton(1)){
-         if paused {
+         if rl.IsMouseButtonDown(rl.MouseButton(1)){
             flag_cell(0)
          }
       }
