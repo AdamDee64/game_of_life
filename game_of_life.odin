@@ -118,14 +118,10 @@ main :: proc() {
                for y in 0..<GRID_H{
                   if count_neighbors(x, y) == 3 {
                      back[x][y] = 1
-                     continue
-                  }
-                  if front[x][y] == 1 && count_neighbors(x, y) == 2 {
-                     back[x][y] = 1
-                     continue
+                  } else if count_neighbors(x, y) == 2 {
+                     back[x][y] = front[x][y]
                   } else if front[x][y] == 1 {
                      back[x][y] = 2
-                     continue
                   }
                }
             }
