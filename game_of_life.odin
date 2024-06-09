@@ -58,6 +58,9 @@ flag_cell :: proc(i : int) {
    y := (int(rl.GetMouseY()) - CELL_SPACE) / REC_SIZE
    if y >= GRID_W || y < 0 || x >= GRID_W || x < 0 {return}
    front[x][y] = i
+   if i == 0 {
+      back[x][y] = i
+   }
 }
 
 life_explosion :: proc() {
