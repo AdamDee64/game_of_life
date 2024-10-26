@@ -56,7 +56,7 @@ count_neighbors :: proc(x, y: int) -> int{
 flag_cell :: proc(i : int) {
    x := (int(rl.GetMouseX()) - GRID_X_SPACE) / REC_SIZE
    y := (int(rl.GetMouseY()) - CELL_SPACE) / REC_SIZE
-   if y >= GRID_W || y < 0 || x >= GRID_W || x < 0 {return}
+   if y >= GRID_H || y < 0 || x >= GRID_W || x < 0 {return}
    front[x][y] = i
    if i == 0 {
       back[x][y] = i
